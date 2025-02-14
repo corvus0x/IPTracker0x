@@ -6,7 +6,6 @@ from tqdm import tqdm
 import re
 from colorama import init, Fore, Style
 
-# Inicializar colorama para que funcione en Windows
 init(autoreset=True)
 
 # Input file containing the IPs
@@ -135,7 +134,7 @@ def main():
     save_to_csv(results, "results.csv")
     generate_html_report(results, "report.html")
     
-    # Mostrar mensaje en consola con colores
+    
     print(Fore.GREEN + "Results saved in results.csv and report.html")
     print(Fore.CYAN + f"Total IPs Analyzed: {len(ips)}")
 
