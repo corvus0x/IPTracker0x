@@ -5,7 +5,7 @@ IPTracker0x is an IP analysis tool that uses the ipinfo.io API to retrieve infor
 IPTracker0x utilizes the ipinfo.io API, which in its free version allows analyzing up to 50,000 IPs per month. This makes it ideal for handling large volumes of data in security incident investigations.
 
 <p align="center">
-<img src=https://imgur.com/FkE9nyD.png">
+<img src=https://imgur.com/C2dWAZv.png">
 </p>
 
 ## Features
