@@ -1,11 +1,11 @@
 # IPTracker0x
 
-IPTracker0x is an IP analysis tool that uses the ipinfo.io API to retrieve information about IPs, including their ASN and whether they belong to a list of malicious ASNs. It also generates reports in CSV and HTML formats with the results.
+IPTracker0x is an IP analysis tool that uses the [ipinfo.io](https://ipinfo.io) API to retrieve information about IPs, including their ASN and whether they belong to a list of malicious ASNs. It also generates reports in CSV and HTML formats with the results.
 
-IPTracker0x utilizes the ipinfo.io API, which in its free version allows analyzing up to 50,000 IPs per month. This makes it ideal for handling large volumes of data in security incident investigations.
+IPTracker0x utilizes the [ipinfo.io](https://ipinfo.io) API, which in its free version allows analyzing up to 50,000 IPs per month. This makes it ideal for handling large volumes of data in security incident investigations.
 
 <p align="center">
-<img src=https://imgur.com/C2dWAZv.png">
+<img src=https://imgur.com/6n0x5vI.png">
 </p>
 
 ## Features
@@ -21,7 +21,7 @@ IPTracker0x utilizes the ipinfo.io API, which in its free version allows analyzi
 Before running the script, make sure you have the following dependencies installed:
 
 ```sh
-pip install requests tqdm colorama
+pip install requests tqdm colorama pycountry
 ```
 
 ## Configuration
@@ -53,12 +53,12 @@ Adjust this value according to your system's capacity and the number of IPs to b
 python IPTracker0x.py
 ```
 
-3. Upon completion, the results will be saved in `results.csv` and `report.html`.
-4. Open `report.html` in a browser to view the report with highlighted data.
+3. Upon completion, the results will be saved in `results_IPTracker0x.csv` and `report_IPTracker0x.html`.
+4. Open `report_IPTracker0x.html` in a browser to view the report with highlighted data.
 
 ## Output Format
 
-### CSV (`results.csv`)
+### CSV (`results_IPTracker0x.csv`)
 
 The CSV file contains the following columns:
 
@@ -74,7 +74,7 @@ The CSV file contains the following columns:
 
 This format is ideal for those who want to work with queries or tables, making analysis easier using tools like Excel or databases.
 
-### HTML (`report.html`)
+### HTML (`report_IPTracker0x.html`)
 
 - Contains a table with detailed information about each analyzed IP.
 - IPs with malicious ASNs are highlighted in red.
@@ -82,11 +82,8 @@ This format is ideal for those who want to work with queries or tables, making a
 - Includes a ranking of the top 10 most frequent countries in the analysis.
 
 <p align="center">
-<img src=https://imgur.com/xqnps0b.png">
-</p>
-
-<p align="center">
-<img src=https://imgur.com/Ufcbxe4.png">
+<img src=https://imgur.com/kGKWyQg.png">
+<img src=https://imgur.com/NsVhjks.png">
 </p>
 
 ## Credits
