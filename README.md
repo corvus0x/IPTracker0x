@@ -52,35 +52,6 @@ api_token = "YOUR_API_KEY"
 max_workers = 10
 ```
 
-### Corporate networks (TLS inspection)
-
-If every lookup fails with `SSLCertVerificationError`, including well-known
-addresses like `8.8.8.8`, the problem is not the addresses — it is a proxy
-inspecting TLS. It terminates the connection and presents a certificate signed
-by an internal CA. Your browser trusts that CA because it is in the Windows
-certificate store; Python does not always look there.
-
-The script loads the Windows store automatically, which is enough in most
-cases. If it is not, point it at your company CA bundle:
-
-```python
-ca_bundle = r"C:\path\to\corp-ca.pem"
-```
-
-or set the standard environment variable instead, which every Python tool
-honours:
-
-```bash
-setx SSL_CERT_FILE "C:\path\to\corp-ca.pem"
-```
-
-Certificate failures are never retried — they are deterministic — and the run
-ends with an explanation rather than the same error repeated per address.
-
-> Do not disable certificate verification to work around this. It would leave
-> the tool trusting any certificate, which is a poor trade in something used
-> for security work.
-
 ## Output
 
 ### `report_IPTracker0x.html`

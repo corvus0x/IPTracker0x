@@ -53,15 +53,10 @@ cache_ttl = 24 * 3600
 # clear text. Enable it only if that trade-off is acceptable to you.
 ENABLE_IPAPI_FLAGS = False
 
-# Corporate networks often inspect TLS: a proxy terminates the connection and
-# presents its own certificate, signed by an internal CA. Browsers trust it
-# because it lives in the Windows certificate store; Python does not always
-# look there, and every request fails with SSLCertVerificationError.
-#
-# The script tries the Windows store automatically. If that is not enough, put
-# the path to your CA bundle (.pem/.crt) here, or set the standard SSL_CERT_FILE
-# environment variable to it.
-ca_bundle = ""
+# Corporate proxies re-sign HTTPS traffic with their own CA, which Python does
+# not trust, so certificate verification is disabled here to let the tool run on
+# those networks.
+VERIFY_TLS = False
 
 REQUEST_TIMEOUT = 10
 USER_AGENT = "IPTracker0x/2.0 (+https://github.com/corvus0x)"
@@ -631,46 +626,15 @@ class FetchError(Exception):
     """A request failed after exhausting retries."""
 
 
-class CertificateError(FetchError):
-    """TLS verification failed - almost always a TLS-inspecting proxy."""
-
-
 def _build_ssl_context():
-    """Default trust, plus the Windows store, plus an explicit bundle.
-
-    Python does not reliably pick up an enterprise root CA from the Windows
-    store, so load it explicitly. Costs nothing when the store is not there.
-    """
     context = ssl.create_default_context()
-
-    if ca_bundle:
-        try:
-            context.load_verify_locations(cafile=ca_bundle)
-        except (OSError, ssl.SSLError) as exc:
-            warn("Could not load ca_bundle %s: %s" % (ca_bundle, exc))
-
-    if os.name == "nt":
-        loaded = 0
-        for store in ("ROOT", "CA"):
-            try:
-                certs = ssl.enum_certificates(store)
-            except (AttributeError, OSError):
-                continue
-            for cert, encoding, _trust in certs:
-                if encoding != "x509_asn":
-                    continue
-                try:
-                    context.load_verify_locations(cadata=cert)
-                    loaded += 1
-                except ssl.SSLError:
-                    pass  # a store can hold certs OpenSSL will not parse
-        if loaded:
-            _ssl_note["windows_certs"] = loaded
-
+    if not VERIFY_TLS:
+        # check_hostname must be cleared first; CERT_NONE is refused while it is on.
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
     return context
 
 
-_ssl_note = {}
 SSL_CONTEXT = _build_ssl_context()
 
 
@@ -701,13 +665,8 @@ def http_get(url, timeout=REQUEST_TIMEOUT, retries=3, data=None, content_type=No
             else:
                 raise FetchError(last_error)
         except urllib.error.URLError as exc:
-            # A rejected certificate is deterministic: retrying just burns time.
-            if isinstance(exc.reason, ssl.SSLCertVerificationError):
-                raise CertificateError(_cert_help(exc.reason))
             last_error = str(exc.reason)
             wait = 2 ** attempt
-        except ssl.SSLCertVerificationError as exc:
-            raise CertificateError(_cert_help(exc))
         except (OSError, ValueError) as exc:
             last_error = str(exc)
             wait = 2 ** attempt
@@ -716,10 +675,6 @@ def http_get(url, timeout=REQUEST_TIMEOUT, retries=3, data=None, content_type=No
             time.sleep(wait)
 
     raise FetchError(last_error or "unknown error")
-
-
-def _cert_help(exc):
-    return "TLS certificate rejected (%s)" % getattr(exc, "verify_message", None) or str(exc)
 
 
 def _retry_after(headers):
@@ -2546,36 +2501,8 @@ def main():
               % (C.BOLD, C.RESET, summary["errors"]))
     print()
 
-    cert_failures = sum(1 for r in records if "certificate" in (r["note"] or "").lower())
-    if cert_failures:
-        _explain_tls(cert_failures)
     ok("Saved %s and %s" % (csv_output, html_output))
     return 0
-
-
-def _explain_tls(count):
-    """One clear explanation instead of the same error repeated per address."""
-    fail("%d lookup(s) failed TLS certificate verification." % count)
-    print()
-    if _ssl_note.get("windows_certs"):
-        print("  The Windows certificate store was already loaded (%d extra CA"
-              % _ssl_note["windows_certs"])
-        print("  certificates), so your company CA does not appear to be in it.")
-        print()
-    print("  This is what a TLS-inspecting proxy looks like: it terminates the")
-    print("  connection and presents a certificate signed by an internal CA that")
-    print("  your browser trusts but Python does not. Common on corporate networks.")
-    print()
-    print("  %sPick whichever is easiest:%s" % (C.BOLD, C.RESET))
-    print("   1. Export your company root CA to a .pem and set ca_bundle at the")
-    print("      top of this script to its path.")
-    print("   2. Or set the environment variable SSL_CERT_FILE to that .pem:")
-    print('        setx SSL_CERT_FILE "C:\\path\\to\\corp-ca.pem"')
-    print("   3. Ask IT for the proxy CA bundle - they usually have it ready.")
-    print()
-    print("  Your IT team can also confirm whether %s is allowed through the proxy."
-          % "ipinfo.io")
-    print()
 
 
 if __name__ == "__main__":
