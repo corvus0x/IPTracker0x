@@ -81,11 +81,15 @@ FEEDS = {
         "file": "ipsum.txt",
         "label": "IPsum (30+ aggregated blocklists)",
     },
-    # Current Tor exit nodes.
+    # Current Tor exit nodes, mirrored on GitHub. Taken from a mirror rather
+    # than check.torproject.org because endpoint security products block
+    # connections to Tor Project infrastructure outright, and the mirror also
+    # carries IPv6 exits, which the original list does not.
     "tor": {
-        "url": "https://check.torproject.org/torbulkexitlist",
+        "url": "https://raw.githubusercontent.com/SecOps-Institute/Tor-IP-Addresses"
+               "/master/tor-exit-nodes.lst",
         "file": "tor-exit-nodes.txt",
-        "label": "Tor Project bulk exit list",
+        "label": "Tor exit nodes (SecOps-Institute mirror)",
     },
     # Netblocks hijacked or leased by criminal operations.
     "spamhaus": {
@@ -802,10 +806,17 @@ class ThreatIntel:
         return len(self.ipsum)
 
     def _load_tor(self, text):
+        # Normalise before storing: this list publishes IPv6 fully expanded
+        # (2001:0470:0001:...) while lookups arrive in the canonical compressed
+        # form, so a plain string compare would miss every IPv6 exit.
         for line in text.splitlines():
             line = line.strip()
-            if line and not line.startswith("#"):
-                self.tor_exits.add(line)
+            if not line or line.startswith("#"):
+                continue
+            try:
+                self.tor_exits.add(str(ipaddress.ip_address(line)))
+            except ValueError:
+                continue
         return len(self.tor_exits)
 
     def _load_spamhaus(self, text):

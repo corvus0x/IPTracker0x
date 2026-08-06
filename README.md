@@ -93,7 +93,7 @@ A **signal** is one match: a named fact from a named source, worth a fixed numbe
 | Listed on 5 or more public blocklists | +40 | [IPsum](https://github.com/stamparm/ipsum) |
 | Listed on 3–4 public blocklists | +30 | IPsum |
 | Listed on 1–2 public blocklists | +15 | IPsum |
-| Current Tor exit node | +25 | [Tor Project](https://check.torproject.org/torbulkexitlist) |
+| Current Tor exit node | +25 | [Tor exit list](https://github.com/SecOps-Institute/Tor-IP-Addresses) |
 | Belongs to a cloud/hosting/colo ASN | +10 | [bad-asn-list](https://github.com/brianhama/bad-asn-list) |
 | Anycast, mobile carrier, non-routable | 0 | ipinfo.io / local |
 
@@ -120,7 +120,7 @@ The country boundaries the map is drawn from are fetched the same way, rather th
 - [brianhama](https://github.com/brianhama/bad-asn-list) for **bad-asn-list**.
 - [stamparm](https://github.com/stamparm/ipsum) for **IPsum**.
 - [The Spamhaus Project](https://www.spamhaus.org/) for the **DROP** list.
-- [The Tor Project](https://www.torproject.org/) for the bulk exit list.
+- [The Tor Project](https://www.torproject.org/) for the exit node data, taken from the [SecOps-Institute mirror](https://github.com/SecOps-Institute/Tor-IP-Addresses) — endpoint security products commonly block connections to Tor Project infrastructure, and the mirror also lists IPv6 exits.
 
 Each feed is distributed under its own terms; review them before using this tool commercially.
 
