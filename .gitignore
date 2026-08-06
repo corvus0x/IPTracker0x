@@ -1,0 +1,24 @@
+# Downloaded threat-intel feeds and map boundaries
+.iptracker_cache/
+
+# Generated reports (they contain the addresses you analysed)
+report_IPTracker0x.html
+results_IPTracker0x.csv
+results_IPTracker0x.json
+
+# Certificates. A corporate CA bundle is not secret in itself, but publishing
+# one advertises your employer's TLS-inspection setup - and a private key here
+# would be a real incident.
+*.pem
+*.crt
+*.cer
+*.der
+*.key
+*.p12
+*.pfx
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

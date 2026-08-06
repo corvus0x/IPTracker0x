@@ -1,22 +1,106 @@
-63.143.98.183
-63.143.101.78
-69.160.105.242
-173.225.247.213
-207.204.113.145
-69.160.106.62
-208.131.188.18
-45.89.175.197
-72.27.4.3
-212.12.162.17
-196.206.217.71
-84.254.188.162
-84.254.188.181
-154.120.138.146
-41.204.109.155
-218.188.194.190
-175.45.29.190
-192.145.125.42
-116.92.232.174
-202.82.217.41
-218.253.252.102
-223.17.196.159
+# IPTracker0x - sample input
+#
+# One IP per line. Blank lines and lines after # are ignored, and log-style
+# lines are tolerated (the first field is used).
+#
+# NOTE: this file is tracked by git. If you replace it with addresses from a
+# real investigation, do not commit it - that would publish those IOCs.
+#
+# This list is a demonstration: every address below was resolved against the
+# live feeds when the file was written, so a first run exercises the whole
+# tool - every continent, each reputation signal, and the four input classes
+# the validator separates. Replace it with your own addresses.
+
+# --- Public resolvers and anycast infrastructure ---
+# Announced from many locations at once; ipinfo reports the nearest node.
+8.8.8.8          # Mountain View, United States | Google LLC
+1.1.1.1          # Brisbane, Australia | Cloudflare, Inc.
+9.9.9.9          # Ashburn, United States | Quad9
+208.67.222.222   # San Jose, United States | Cisco OpenDNS, LLC
+94.140.14.14     # Limassol, Cyprus | AdGuard Software Limited
+77.88.8.8        # Moscow, Russian Federation | YANDEX LLC
+185.228.168.9    # Weatherford, United States | Daniel Cid
+80.80.80.80      # Atlanta, United States | Freedom Registry BV
+156.154.70.1     # Lehi, United States | Vercara, LLC
+
+# IPv6 is handled the same way end to end.
+2001:4860:4860::8888     # Mountain View, United States | Google LLC
+2606:4700:4700::1111     # San Francisco, United States | Cloudflare, Inc.
+
+# --- Tor exit nodes ---
+# Reputation signal: Tor exit (+25), often alongside IPsum.
+109.70.100.4     # Vienna, Austria | Foundation for Applied Privacy
+179.43.182.232   # Bellinzona, Switzerland | Private Layer INC
+89.58.26.216     # Nuremberg, Germany | netcup GmbH
+80.67.167.81     # Paris, France | MilkyWan Association
+192.42.116.99    # Amsterdam, Netherlands | Church of Cyberology
+171.25.193.25    # Stockholm, Sweden | Foreningen for digitala fri- och r
+198.98.51.189    # Piscataway, United States | FranTech Solutions
+
+# --- Listed in Spamhaus DROP ---
+# Netblocks Spamhaus publishes as hijacked or criminal-leased (+50).
+1.10.16.1        # Shenzhen, China
+1.19.0.1         # Seoul, South Korea
+1.32.128.1       # Singapore, Singapore
+2.26.75.1        # Falkenstein, Germany | Emil Vitukhnovskii trading as Grea
+
+# --- Listed on many public blocklists ---
+# IPsum, 5 or more sources agreeing (+40).
+77.90.185.20     # Vilnius, Lithuania | Limited Network LTD
+195.178.110.137  # Amsterdam, Netherlands | TECHOFF SRV LIMITED
+45.154.244.149   # Helsinki, Finland | Shereverov Marat Ahmedovich
+45.198.224.26    # Amsterdam, Netherlands | VPSVAULT.HOST LTD
+2.57.121.25      # Timişoara, Romania | UNMANAGED LTD
+
+# --- Listed on a few blocklists ---
+# IPsum, 3 to 4 sources (+30).
+1.82.133.130     # Xi’an, China | CHINANET BACKBONE
+1.162.18.135     # Taipei, Taiwan | Data Communication Business Group
+1.209.110.147    # Goyang-si, South Korea | LG DACOM Corporation
+1.209.124.248    # Seoul, South Korea | LG DACOM Corporation
+1.227.228.131    # Seoul, South Korea | SK Broadband Co Ltd
+
+# --- Listed on one or two blocklists ---
+# IPsum, low confidence (+15).
+1.10.185.51      # Bangkok, Thailand | TOT Public Company Limited
+1.12.55.42       # Guangzhou, China | Shenzhen Tencent Computer Systems 
+1.14.64.225      # Chengdu, China | Shenzhen Tencent Computer Systems 
+1.14.110.85      # Chengdu, China | Shenzhen Tencent Computer Systems 
+1.15.14.29       # Shanghai, China | Shenzhen Tencent Computer Systems 
+
+# --- Geographic spread ---
+# One address per country, to fill the map and the ranking panels.
+200.140.244.47   # Maringá, Brazil | V tal
+190.111.226.20   # Buenos Aires, Argentina | CPS
+177.245.180.101  # Buenavista, Mexico | Mega Cable, S.A. de C.V.
+190.158.28.69    # Medellín, Colombia | Telmex Colombia S.A.
+157.100.108.90   # Guayaquil, Ecuador | Telconet S.A
+154.223.128.39   # Concepción Las Minas, Guatemala | AIRNET, COPROPIEDAD
+165.16.182.115   # Johannesburg, South Africa | SADV (Pty) Ltd
+41.73.98.229     # Bamako, Mali | Orange Mali SA
+125.23.204.74    # Najafgarh, India | BHARTI Airtel Ltd.
+175.107.228.118  # Lahore, Pakistan | Cyber Internet Services (Pvt) Ltd.
+113.212.69.195   # Jakarta, Indonesia
+8.216.7.102      # Tokyo, Japan | Alibaba (US) Technology Co., Ltd.
+121.188.157.45   # Chungju, South Korea | Korea Telecom
+171.243.151.51   # Phan Thiết, Vietnam | Viettel Group
+49.124.152.235   # Kampung Parit Panjang, Malaysia | DiGi Telecommunications Sdn. Bhd.
+118.67.199.102   # Rolleston, New Zealand | Vetta Group
+94.154.43.151    # Bursa, Türkiye | Storm Industries LLC
+5.126.179.99     # Tehran, Iran | Iran Cell Service and Communicatio
+193.150.57.64    # Znamyanka, Ukraine | Optocom Ltd
+176.221.206.115  # Batumi, Georgia | JSC Silknet
+158.69.118.189   # Montréal, Canada | OVH SAS
+185.74.240.227   # Castelló de la Plana, Spain | Spotting Brands Technologies S.L.
+2.192.193.91     # Milan, Italy | Telecom Italia S.p.A.
+109.227.63.3     # Zagreb, Croatia | A1 Hrvatska d.o.o.
+34.78.20.173     # Brussels, Belgium | Google LLC
+193.46.0.146     # London, United Kingdom | Rackdog, LLC
+
+# --- Input the validator filters out, kept here on purpose ---
+# These four show how the report separates ok / local / invalid, and how
+# duplicates are collapsed. None of them spends an API call.
+8.8.8.8          # duplicate of the first entry - deduplicated
+192.168.1.1      # private (RFC 1918)
+203.0.113.0/24   # CIDR notation is not an address - reported as invalid
+not-an-ip        # unparseable - reported as invalid
