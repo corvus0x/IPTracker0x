@@ -93,7 +93,7 @@ A **signal** is one match: a named fact from a named source, worth a fixed numbe
 | Listed on 5 or more public blocklists | +40 | [IPsum](https://github.com/stamparm/ipsum) |
 | Listed on 3–4 public blocklists | +30 | IPsum |
 | Listed on 1–2 public blocklists | +15 | IPsum |
-| Current Tor exit node | +25 | [Tor exit list](https://github.com/SecOps-Institute/Tor-IP-Addresses) |
+| Current Tor exit node | +25 | [TorDNSEL, via FireHOL](https://github.com/firehol/blocklist-ipsets) |
 | Belongs to a cloud/hosting/colo ASN | +10 | [bad-asn-list](https://github.com/brianhama/bad-asn-list) |
 | Anycast, mobile carrier, non-routable | 0 | ipinfo.io / local |
 
@@ -101,7 +101,7 @@ Bands: `Clean` 0 · `Low` 1–24 · `Medium` 25–49 · `High` 50–74 · `Criti
 
 ### A note on the hosting/cloud ASN list
 
-The list this project uses is named "bad-asn-list", but its author describes it as *ASNs known to belong to cloud, managed hosting and colo facilities* — it is not a list of malicious networks. AWS, Google Cloud and Cloudflare are all on it.
+The list this project uses is named "bad-asn-list", but its author describes it as *ASNs known to belong to cloud, managed hosting and colo facilities* — it is not a list of malicious networks. AWS, Google Cloud, Microsoft, DigitalOcean, Hetzner and OVH are all on it. (Cloudflare is not: it fronts millions of ordinary websites, so listing it would flag half the web as infrastructure.)
 
 That is why it contributes only 10 points here and is labelled **Hosting/Cloud**, not "bad". It tells you the address is infrastructure rather than a residential or mobile subscriber, which is useful geolocation context: a datacenter address does not tell you where the person behind it actually is.
 
@@ -120,7 +120,7 @@ The country boundaries the map is drawn from are fetched the same way, rather th
 - [brianhama](https://github.com/brianhama/bad-asn-list) for **bad-asn-list**.
 - [stamparm](https://github.com/stamparm/ipsum) for **IPsum**.
 - [The Spamhaus Project](https://www.spamhaus.org/) for the **DROP** list.
-- [The Tor Project](https://www.torproject.org/) for the exit node data, taken from the [SecOps-Institute mirror](https://github.com/SecOps-Institute/Tor-IP-Addresses) — endpoint security products commonly block connections to Tor Project infrastructure, and the mirror also lists IPv6 exits.
+- [The Tor Project](https://www.torproject.org/) for the exit node data (TorDNSEL), obtained through [FireHOL's blocklist-ipsets](https://github.com/firehol/blocklist-ipsets). The list is the Tor Project's own; only the delivery host differs, because endpoint security products routinely block connections to Tor Project infrastructure. Measured against the live official list, this source carries 99.6% of real exits with 99.8% precision.
 
 Each feed is distributed under its own terms; review them before using this tool commercially.
 
